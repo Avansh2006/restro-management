@@ -365,7 +365,7 @@ export function Modal({
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-5 sm:p-6 overflow-y-auto custom-scrollbar flex-1">{children}</div>
+        <div className="p-5 sm:p-6 overflow-y-auto custom-scrollbar flex-auto min-h-0">{children}</div>
         {footer && (
           <div className="p-4 sm:p-5 bg-surface-container-lowest border-t border-outline-variant flex gap-3 justify-end shrink-0">
             {footer}

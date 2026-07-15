@@ -314,7 +314,7 @@ export default function QrOrderingPage() {
                       {table ? `Table ${table.name}` : "Takeaway"}
                     </span>
                   </div>
-                  <div className="flex-1 overflow-y-auto custom-scrollbar px-5 space-y-3 min-h-0">
+                  <div className="flex-auto overflow-y-auto custom-scrollbar px-5 space-y-3 min-h-0">
                     {cart.map((l) => (
                       <div key={l.item.id} className="flex items-center gap-3 py-2 border-b border-outline-variant/60 last:border-0">
                         <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl shrink-0">
