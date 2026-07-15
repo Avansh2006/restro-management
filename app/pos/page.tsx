@@ -20,7 +20,7 @@ import {
   X,
 } from "lucide-react";
 import { useRestro, money } from "@/lib/store";
-import { Badge, Button, ChipRow, Modal, Select, cx, inputCls } from "@/components/ui";
+import { Button, ChipRow, Modal, Select, cx } from "@/components/ui";
 import { toast } from "@/components/ui/Toast";
 import { ExperienceSwitcher } from "@/components/shell/AppShell";
 import type { MenuItem, OrderItem, PaymentMethod } from "@/lib/types";

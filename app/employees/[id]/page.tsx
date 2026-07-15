@@ -2,7 +2,7 @@
 
 import { use, useMemo } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import {
   ArrowLeft,
   CalendarClock,
@@ -21,7 +21,7 @@ import { toast } from "@/components/ui/Toast";
 
 export default function EmployeeProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const router = useRouter();
+
   const employees = useRestro((s) => s.employees);
   const attendance = useRestro((s) => s.attendance);
   const shifts = useRestro((s) => s.shifts);

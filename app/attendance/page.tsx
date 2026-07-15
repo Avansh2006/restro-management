@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CalendarClock, Clock, LogIn, LogOut, ScanFace, UserCheck, UserX } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/shell/AppShell";
 import { useRestro } from "@/lib/store";
-import { Avatar, Badge, Button, Card, PillTabs, SearchInput, StatCard, cx } from "@/components/ui";
+import { Avatar, Badge, Button, Card, PillTabs, SearchInput, StatCard } from "@/components/ui";
 import { toast } from "@/components/ui/Toast";
 
 type DayFilter = "today" | "yesterday" | "week";

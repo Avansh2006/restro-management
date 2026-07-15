@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Banknote, CheckCircle2, Download, Wallet } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/shell/AppShell";
 import { useRestro, money } from "@/lib/store";
-import { Avatar, Badge, Button, Card, Select, StatCard, cx } from "@/components/ui";
+import { Avatar, Badge, Button, Card, Select, StatCard } from "@/components/ui";
 import { toast } from "@/components/ui/Toast";
 
 export default function PayrollPage() {

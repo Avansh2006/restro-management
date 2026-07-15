@@ -5,7 +5,7 @@ import {
   Armchair,
   CalendarCheck,
   Check,
-  ChevronLeft,
+
   ChevronRight,
   Pencil,
   Phone,

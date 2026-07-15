@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RestroOS — Restaurant Management SaaS Demo
 
-## Getting Started
+A fully interactive, frontend-only restaurant management demo built from the
+Google Stitch **"RestroOS Premium Management Dashboard"** designs
+(`stitch_restroos_premium_management_dashboard/`).
 
-First, run the development server:
+No backend, no database, no login — everything runs in the browser with
+`localStorage` as the demo database.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production build:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build && npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What's inside
 
-## Learn More
+| Area | Modules |
+|---|---|
+| Operations | Dashboard, Live Orders (kanban), Tables & floor plan, Reservations, Kitchen Display System, POS terminal, Menu management |
+| Supply | Inventory & stock, Recipes with costing, Suppliers, Purchase orders (receiving restocks inventory) |
+| People | Employees + profiles, Attendance, Face-attendance kiosk (with PIN fallback), Shifts, Leave, Payroll |
+| Guests | Customers, Loyalty program, Feedback, Customer QR ordering (mobile-first) |
+| Insights | Analytics (Recharts), Reports with CSV export, Branches, Audit logs, Settings |
+| Extra | Employee mobile app experience, demo experience switcher (⚡ in the top bar) |
 
-To learn more about Next.js, take a look at the following resources:
+## Connected data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Modules behave like one application, e.g.:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- QR order → appears in Live Orders + KDS, occupies the table
+- KDS status changes → reflected in Live Orders and the guest's QR tracking screen
+- Paying an order → revenue KPIs update, table becomes dirty→available, customer history + loyalty points update
+- Marking a menu item sold out → hidden from POS and QR ordering
+- Kiosk punch-in → Attendance, employee profile, and dashboard staff KPI update
+- Receiving a purchase order → inventory stock increases
 
-## Deploy on Vercel
+## Demo data
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Seeded on first visit; user changes persist across refreshes.
+Under **Settings → Demo Data** you can:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Reset Demo Data** to the original seed
+- **Export** the full state as JSON
+- **Import** a previously exported JSON snapshot
+
+## Stack
+
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · Zustand (persist) ·
+Recharts · Lucide icons — design tokens ported from the Stitch `DESIGN.md`.

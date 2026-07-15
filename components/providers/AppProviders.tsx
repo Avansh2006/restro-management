@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { ToastViewport } from "@/components/ui/Toast";
+
+const emptySubscribe = () => () => {};
 
 /**
  * Gates rendering until zustand-persist rehydrates from localStorage so the
  * server-rendered shell never mismatches with persisted client state.
  */
 export function AppProviders({ children }: { children: React.ReactNode }) {
-  const [hydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
+  const hydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
   if (!hydrated) {
     return (

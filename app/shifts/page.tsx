@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CalendarRange, ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/shell/AppShell";
 import { useRestro } from "@/lib/store";
 import {
   Avatar,
-  Badge,
+
   Button,
   ConfirmDialog,
   Drawer,

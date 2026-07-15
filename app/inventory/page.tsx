@@ -56,7 +56,7 @@ export default function InventoryPage() {
   const deleteInventoryItem = useRestro((s) => s.deleteInventoryItem);
   const adjustStock = useRestro((s) => s.adjustStock);
   const addPurchaseOrder = useRestro((s) => s.addPurchaseOrder);
-  const exportJson = useRestro((s) => s.exportJson);
+
   const activeBranchId = useRestro((s) => s.settings.activeBranchId);
 
   const [cat, setCat] = useState<CatFilter>("all");
