@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Menu Management | RestroOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface-variant": "#464555",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-container": "#a44100",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#f7f9fb",
+                        "primary-container": "#4f46e5",
+                        "outline": "#777587",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#0f0069",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#351000",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary": "#7e3000",
+                        "secondary": "#505f76",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-tint": "#4d44e3",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c7c4d8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed-variant": "#38485d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+        .drawer-overlay { transition: opacity 0.3s ease; }
+        .drawer-content { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .row-hover:hover { background-color: #F1F5F9; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex overflow-hidden h-screen">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-lg mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1">restaurant_menu</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RestroOS</h1>
+<p class="text-[10px] uppercase tracking-wider text-outline font-bold">Downtown Branch</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-md space-y-1">
+<!-- Shared Component Implementation -->
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="reorder">reorder</span>
+<span class="font-body-md text-body-md">Live Orders</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg bg-secondary-container text-on-secondary-container border-l-2 border-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-body-md text-body-md">Menu</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg border-t border-outline-variant">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-[280px] flex-1 flex flex-col h-full bg-surface-container-lowest">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-lg sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-lg">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Search items, modifiers, or stations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs px-sm py-1.5 bg-surface-container-high rounded-full border border-outline-variant cursor-pointer hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md pr-1">Downtown Branch</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a restaurant manager in a high-end corporate setting. The lighting is soft and natural, with a blurred modern kitchen in the background. The manager is wearing a clean white chef's shirt, looking confident and approachable. The overall visual style is clean, sharp, and reflects a premium SaaS brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuazEHPjmPWcDpvWz3CQEjiMGqahxgvb9Wyiv6ZqFfgdFlAPn8KeP-UZDyJkH2L00rG1Gg_sWokpFNBFc033UyT8Vjx99paYC29AGDANlss_J2BFxNe80O2NXsGeqC4TMhbcQD7-naveg1YpW6CMFSGBHyszPlHXEu3WTZf-01RYXhaBTnS6T25II2KGjnTc-POdM7IwyhK4dYQeol5H4LZVDQhFUTZI1euv94GTzujV3vIX0DMdK4FfZ6Gr1_K8UUjzKcci4PN3g"/>
+</div>
+</div>
+</header>
+<!-- Menu Header -->
+<div class="px-lg pt-lg pb-md">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold">Menu Management</h2>
+<p class="text-on-surface-variant font-body-md">Configure and organize your digital menu across all channels.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-lg py-2.5 rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all" onclick="toggleDrawer(true)">
+<span class="material-symbols-outlined text-[20px]" data-icon="add" style="font-variation-settings: 'wght' 700">add</span>
+                    Add Item
+                </button>
+</div>
+<!-- Tabbed Interface -->
+<div class="flex gap-lg mt-lg border-b border-outline-variant">
+<button class="pb-3 px-1 font-label-md text-label-md text-primary border-b-2 border-primary">Items</button>
+<button class="pb-3 px-1 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Categories</button>
+<button class="pb-3 px-1 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Modifiers</button>
+<button class="pb-3 px-1 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Combos</button>
+</div>
+</div>
+<!-- Table View -->
+<div class="flex-1 overflow-auto px-lg pb-lg">
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-md px-lg w-12"></th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Image</th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Name</th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Price</th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="py-md px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Stock Level</th>
+<th class="py-md px-md w-10"></th>
+</tr>
+</thead>
+<tbody id="menu-table-body">
+<!-- Row 1 -->
+<tr class="row-hover border-b border-outline-variant transition-colors group">
+<td class="py-md px-lg text-center">
+<span class="material-symbols-outlined text-outline drag-handle group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</td>
+<td class="py-md px-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A high-resolution, professional culinary photograph of a signature Wagyu beef burger. The burger is beautifully stacked with melted artisanal cheese, fresh greens, and a perfectly toasted brioche bun. The lighting is moody and dramatic with a focus on textures. The overall style is sophisticated and elegant, suitable for a premium restaurant management platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEJ6A21lvSN9nPi_FoSoO6XMlrFNUloGMoN5ZtQxWiZ9faVbrOk2uVJ1ARwteNtSV2LTL23r4bw8He9LcRrQM1TIXdzSAz4H1NrIPczEB5MlP7NGFeFJNSOpOBcOPDepnvOQymn-cqFV5QZ767Zr4uWg0mlm0ZCvMk4B6cmj6ysxd6MJ1Bxkgb-zmX7ONw5wMsxD_QPo1QabKaALyPc1Lmu0N2ek4SJKYTMjIlnV1YxVSurm_037Whm31pl2nMo68KOxE2xIOl1qM"/>
+</div>
+</td>
+<td class="py-md px-md font-body-md font-semibold text-on-surface">Signature Wagyu Burger</td>
+<td class="py-md px-md">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold rounded uppercase tracking-wide">Main Course</span>
+</td>
+<td class="py-md px-md font-body-md text-on-surface">$24.00</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-success bg-[#10b981]"></div>
+<span class="text-body-md text-[#10b981] font-medium">Active</span>
+</div>
+</td>
+<td class="py-md px-md font-body-md">
+<div class="w-full max-w-[100px] bg-surface-container rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<span class="text-[11px] text-outline mt-1 block">85 in stock</span>
+</td>
+<td class="py-md px-md">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="row-hover border-b border-outline-variant transition-colors group">
+<td class="py-md px-lg text-center">
+<span class="material-symbols-outlined text-outline drag-handle group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</td>
+<td class="py-md px-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A vibrant and fresh summer salad featured in a shallow ceramic bowl. The salad includes arugula, sliced strawberries, goat cheese crumbles, and balsamic glaze. The photograph is taken from a top-down angle with bright, natural lighting. The color palette consists of lush greens, bright reds, and creamy whites, fitting a high-end SaaS UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc3DYJ1lU1Cg4wS2rAjytLqAoQ5LW5jKz4h3RbScCZZi2sieks5X3O37uy_gHqCryOqip-sIuCcg-w9sR3mRhk9FmR6m1xTkGscdb_n8pRf9EJGtwsZiMEu9MpvWyKVM8-CIS_HMQN2X2vqrs8iNgU04TF1uJRaEIyqE2J25HlfakpLJneTpnhjMbm3ev2fSG3dpDShFjg1m4o5WXxLssdTQqJ0PxkMSfkTOKmVfixjfAfVNUi-dBLxjS1trqJxWjUVbtXv_YMWHU"/>
+</div>
+</td>
+<td class="py-md px-md font-body-md font-semibold text-on-surface">Summer Berry Salad</td>
+<td class="py-md px-md">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold rounded uppercase tracking-wide">Starters</span>
+</td>
+<td class="py-md px-md font-body-md text-on-surface">$16.50</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-success bg-[#10b981]"></div>
+<span class="text-body-md text-[#10b981] font-medium">Active</span>
+</div>
+</td>
+<td class="py-md px-md font-body-md">
+<div class="w-full max-w-[100px] bg-surface-container rounded-full h-1.5">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 12%"></div>
+</div>
+<span class="text-[11px] text-tertiary font-bold mt-1 block">Low Stock (12)</span>
+</td>
+<td class="py-md px-md">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="row-hover border-b border-outline-variant transition-colors group">
+<td class="py-md px-lg text-center">
+<span class="material-symbols-outlined text-outline drag-handle group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</td>
+<td class="py-md px-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Artisanal hand-crafted cocktail with a crystalline ice block and a citrus twist garnish. The glass is elegant and sleek, catching reflections of ambient warm lighting from a sophisticated bar environment. The overall mood is upscale and contemporary, reflecting a premium restaurant brand's beverage selection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxEEPZ9gSW65bMMU1zyc2OfLcdQtefj-g4IlY5z4n70jfM0GhPONz0fT6ut5yIQndgyMvsMhmGkEkBWPsa1ErW4Hi9k24JBnR-CnKL69A5iKTypJzd7bUjF2_G6GtNxmi2Y2DkktuOEv-A4EA1vmiR7cActJ0if212zAB91uB-g5BLth-03MTORAkwKRiiSU6HUL4-lOxH1TnxhH3C5IOy1vAPXmI3qe1MVUbH5VelwzLDy-TFmoiFccDj659NNNPzEwPgjJLADOY"/>
+</div>
+</td>
+<td class="py-md px-md font-body-md font-semibold text-on-surface">Smoked Old Fashioned</td>
+<td class="py-md px-md">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold rounded uppercase tracking-wide">Beverages</span>
+</td>
+<td class="py-md px-md font-body-md text-on-surface">$18.00</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="text-body-md text-outline font-medium">Inactive</span>
+</div>
+</td>
+<td class="py-md px-md font-body-md">
+<div class="w-full max-w-[100px] bg-surface-container rounded-full h-1.5">
+<div class="bg-outline h-1.5 rounded-full" style="width: 0%"></div>
+</div>
+<span class="text-[11px] text-outline mt-1 block">Out of Stock</span>
+</td>
+<td class="py-md px-md">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="row-hover border-b border-outline-variant transition-colors group">
+<td class="py-md px-lg text-center">
+<span class="material-symbols-outlined text-outline drag-handle group-hover:text-primary transition-colors" data-icon="drag_indicator">drag_indicator</span>
+</td>
+<td class="py-md px-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A delicate chocolate lava cake dessert served on a white porcelain plate. The cake is dusted with powdered sugar and has a molten center beginning to flow. A small scoop of vanilla bean ice cream is on the side. Professional food styling with a clean, minimalist aesthetic and warm, appetizing lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQuAYG-o6MnEalNZBs69vdT9tYpEDqJ16HaMk1bsnWBNoWM7WuzArUwLUmEJRmajMBruzGf6QWkH7CoEPB4zwFcmWYBL6IUz2-PbtDT6q6NGEFteQps-hZc9T_I_yZ-gPrK8GfwshRLq9kJ0E-ab6zUlkQ1a0qGtR0l_OinNUW4vITGIzSWxufgFJLYyHyl-b-WfC3BdQmWTp0og4QbecV8gBXC0LKb8e_pA0jJwkbG0H3i203p73poViomyXSuxjmTdQhix9j3Ek"/>
+</div>
+</td>
+<td class="py-md px-md font-body-md font-semibold text-on-surface">Molten Lava Cake</td>
+<td class="py-md px-md">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold rounded uppercase tracking-wide">Desserts</span>
+</td>
+<td class="py-md px-md font-body-md text-on-surface">$12.00</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#10b981]"></div>
+<span class="text-body-md text-[#10b981] font-medium">Active</span>
+</div>
+</td>
+<td class="py-md px-md font-body-md">
+<div class="w-full max-w-[100px] bg-surface-container rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+<span class="text-[11px] text-outline mt-1 block">45 in stock</span>
+</td>
+<td class="py-md px-md">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- Side Drawer: Add Item -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] hidden opacity-0 drawer-overlay" id="drawer-overlay" onclick="toggleDrawer(false)"></div>
+<div class="fixed right-0 top-0 h-full w-[480px] bg-surface shadow-2xl z-[101] translate-x-full drawer-content flex flex-col border-l border-outline-variant" id="drawer-content">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-white">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold">Add Menu Item</h3>
+<p class="text-body-md text-on-surface-variant">Create a new entry for your branch menu.</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high rounded-full text-on-surface-variant transition-colors" onclick="toggleDrawer(false)">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-lg bg-surface-container-lowest">
+<form class="space-y-lg" id="add-item-form">
+<!-- Image Upload -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface">Item Image</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-xl text-center bg-surface-container-low hover:border-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary text-[32px]" data-icon="cloud_upload">cloud_upload</span>
+<p class="font-body-md text-body-md text-outline mt-2">Drag and drop or click to upload</p>
+<p class="text-[11px] text-outline-variant mt-1">PNG, JPG up to 10MB (Recommended 800x800)</p>
+</div>
+</div>
+<!-- Basic Info -->
+<div class="grid grid-cols-2 gap-md">
+<div class="col-span-2 space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="name">Item Name</label>
+<input class="w-full px-md py-2.5 bg-white border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" id="name" placeholder="e.g. Truffle Mac &amp; Cheese" type="text"/>
+</div>
+<div class="col-span-2 space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="desc">Description</label>
+<textarea class="w-full px-md py-2.5 bg-white border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" id="desc" placeholder="Describe ingredients, allergens, etc." rows="3"></textarea>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="price">Base Price ($)</label>
+<input class="w-full px-md py-2.5 bg-white border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" id="price" placeholder="0.00" type="number"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="tax">Tax Category</label>
+<select class="w-full px-md py-2.5 bg-white border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" id="tax">
+<option>Standard Food (8%)</option>
+<option>Premium Spirit (20%)</option>
+<option>Soft Drinks (10%)</option>
+<option>Exempt</option>
+</select>
+</div>
+</div>
+<!-- Routing & Inventory -->
+<div class="pt-lg border-t border-outline-variant space-y-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="station">Kitchen Station Routing</label>
+<select class="w-full px-md py-2.5 bg-white border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" id="station">
+<option>Grill Station</option>
+<option>Garde Manger (Cold)</option>
+<option>Saute Station</option>
+<option>Barista Counter</option>
+<option>Pastry / Bakery</option>
+</select>
+</div>
+<div class="flex items-center justify-between p-md bg-surface-container-high rounded-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="inventory">inventory</span>
+<div>
+<p class="font-label-md text-label-md">Track Inventory</p>
+<p class="text-[11px] text-on-surface-variant">Enable automated stock countdown</p>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div class="p-lg bg-white border-t border-outline-variant flex gap-md">
+<button class="flex-1 py-2.5 px-md border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors" onclick="toggleDrawer(false)">
+                Discard Changes
+            </button>
+<button class="flex-1 py-2.5 px-md bg-primary text-on-primary font-label-md text-label-md rounded-lg shadow-sm hover:bg-primary-container transition-all">
+                Publish Item
+            </button>
+</div>
+</div>
+<script>
+        function toggleDrawer(open) {
+            const overlay = document.getElementById('drawer-overlay');
+            const content = document.getElementById('drawer-content');
+            
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.add('opacity-100');
+                    content.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                overlay.classList.remove('opacity-100');
+                content.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Lightweight Drag and Drop Visual Simulation
+        const tableBody = document.getElementById('menu-table-body');
+        let draggedItem = null;
+
+        tableBody.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('drag-handle') || e.target.closest('.drag-handle')) {
+                draggedItem = e.target.closest('tr');
+                draggedItem.classList.add('opacity-50', 'bg-secondary-container');
+                e.dataTransfer.effectAllowed = 'move';
+            } else {
+                e.preventDefault();
+            }
+        });
+
+        tableBody.addEventListener('dragend', (e) => {
+            if (draggedItem) {
+                draggedItem.classList.remove('opacity-50', 'bg-secondary-container');
+                draggedItem = null;
+            }
+        });
+
+        tableBody.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const targetRow = e.target.closest('tr');
+            if (targetRow && targetRow !== draggedItem) {
+                const bounding = targetRow.getBoundingClientRect();
+                const offset = e.clientY - bounding.top;
+                if (offset > bounding.height / 2) {
+                    targetRow.after(draggedItem);
+                } else {
+                    targetRow.before(draggedItem);
+                }
+            }
+        });
+
+        // Initialize drag events for handles
+        document.querySelectorAll('.drag-handle').forEach(handle => {
+            handle.parentElement.parentElement.setAttribute('draggable', true);
+        });
+    </script>
+</body></html>

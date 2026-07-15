@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RestroOS | Inventory &amp; Stock</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface-variant": "#464555",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-container": "#a44100",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#f7f9fb",
+                        "primary-container": "#4f46e5",
+                        "outline": "#777587",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#0f0069",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#351000",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary": "#7e3000",
+                        "secondary": "#505f76",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-tint": "#4d44e3",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c7c4d8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed-variant": "#38485d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .elevation-1 { border: 1px solid #E2E8F0; }
+        .elevation-2 { box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05), 0px 2px 4px -2px rgba(0, 0, 0, 0.03); border: 1px solid #E2E8F0; }
+        .status-chip { @apply px-2 py-0.5 rounded-full text-label-sm font-semibold; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-lg mb-xl flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RestroOS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Downtown Branch</p>
+</div>
+</div>
+<nav class="flex-1 px-md space-y-1 custom-scrollbar overflow-y-auto">
+<!-- Navigation Items Mapping from JSON -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">reorder</span>
+<span class="font-body-md text-body-md">Live Orders</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">table_restaurant</span>
+<span class="font-body-md text-body-md">Tables</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-secondary-container text-on-secondary-container border-l-2 border-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-body-md text-body-md font-semibold">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="font-body-md text-body-md">Kitchen</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">point_of_sale</span>
+<span class="font-body-md text-body-md">POS</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md text-body-md">Employees</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg border-t border-outline-variant">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 right-0 left-[280px] h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40 sticky shadow-sm">
+<div class="flex items-center gap-lg">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Search inventory, suppliers, or orders..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-sm bg-primary text-white px-md py-2 rounded-lg font-label-md hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Quick Create</span>
+</button>
+<img class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="Professional headshot of a restaurant manager in a clean white chef shirt, blurred high-end restaurant kitchen background, soft commercial lighting, high definition, modern professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsNRtrw34kUzItV1XMQwZHUIsnJtt4gFm0t1OVXV5ROkTNBaq_05pAVlDdl97bkuv8QNiKwrHGXzkUiYqS3KuaeosvfCUCcIkk7Ip62iftDdNTOdtBZ_UVXsCwMigSlTvk4Xgp8pvhws_-TkIfP1ix3EtXCRsuLHjiz0CSB8VEy-ESG9lGT-geh22FpZCJQHb7Wm4k6WBm7IZi0Sm8QzJEEie65k8c2t9P7FSPTaTmaIugEZob_i1mOd1gox0QRaWSMT0e5rNpmrs"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[280px] pt-24 px-lg pb-xl max-w-[1600px] mx-auto">
+<!-- Page Header -->
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold">Inventory &amp; Stock</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage your supplies, track real-time levels, and handle reorders.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-2 bg-white border border-outline-variant rounded-lg font-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center gap-xs px-md py-2 bg-white border border-outline-variant rounded-lg font-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Audit Logs</span>
+</button>
+</div>
+</div>
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl">
+<!-- Card 1 -->
+<div class="bg-white p-lg rounded-xl elevation-2 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary-fixed rounded-lg text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-on-secondary-container font-label-sm bg-secondary-fixed px-2 py-1 rounded">+12% vs LW</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Stock Value</p>
+<h3 class="font-display-lg text-display-lg font-bold text-on-surface">$42,850.20</h3>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white p-lg rounded-xl elevation-2 border-l-4 border-error flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-error-container rounded-lg text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="text-error font-label-sm font-bold animate-pulse">Critical</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Low Stock Items</p>
+<h3 class="font-display-lg text-display-lg font-bold text-on-surface">14</h3>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white p-lg rounded-xl elevation-2 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary-fixed rounded-lg text-secondary">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Pending Purchase Orders</p>
+<h3 class="font-display-lg text-display-lg font-bold text-on-surface">08</h3>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white p-lg rounded-xl elevation-2 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary-fixed rounded-lg text-tertiary">
+<span class="material-symbols-outlined">delete_sweep</span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Waste this Month</p>
+<h3 class="font-display-lg text-display-lg font-bold text-on-surface">$1,420.00</h3>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-lg items-start">
+<!-- Left Column: Main Inventory Table -->
+<div class="col-span-12 lg:col-span-8 bg-white rounded-xl elevation-2 overflow-hidden">
+<div class="p-md border-b border-outline-variant flex flex-wrap gap-md justify-between items-center">
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white font-label-md">All Items</button>
+<button class="px-4 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant font-label-md transition-colors">Produce</button>
+<button class="px-4 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant font-label-md transition-colors">Meat</button>
+<button class="px-4 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant font-label-md transition-colors">Dairy</button>
+<button class="px-4 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant font-label-md transition-colors">Beverage</button>
+</div>
+<div class="flex items-center gap-sm">
+<span class="text-label-md text-on-surface-variant">Sort by:</span>
+<select class="bg-transparent border-none text-label-md font-semibold focus:ring-0 cursor-pointer">
+<option>Stock Level (Low to High)</option>
+<option>Value (High to Low)</option>
+<option>Alphabetical</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight">Item Name</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight">Category</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight text-center">Stock Level</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight">Min. Stock</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight">Supplier</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-tight text-right">Value</th>
+<th class="px-md py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Macro photography of fresh, vibrant cherry tomatoes on a dark stone surface, crisp focus, studio lighting, high resolution, professional culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPdXABTQxUv3qTSQf3_TxaqiM05arxHj5Wlxv2sxqOJUrEVlME3tyG6s38xPeQve3kqnsc8jxeXdi5G_Q90fzyujF8zV5elVUJZG0jyzuVL882WkErzgm-7C5VvxR4tsZz7DmIzzSOZA7eJFr_y9vjw25HBIK8-W5ykHzvLZbKWlCs4iunb5rUvQ-7ZLDQF0523i50YpLzTApmjhSdYWTi8sK_oZaddxksmTaqZ_9SBtgfAHpKp1mGCMMlVjBjq4rUOJ8NpIL1P5A"/>
+</div>
+<span class="font-body-md font-semibold">Cherry Tomatoes (5kg)</span>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-label-sm">Produce</span>
+</td>
+<td class="px-md py-4">
+<div class="flex flex-col items-center gap-1">
+<div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 15%"></div>
+</div>
+<span class="text-label-sm font-bold text-error">15% (Critical)</span>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">2 Units</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">FreshHarvest Co.</td>
+<td class="px-md py-4 font-body-md text-right font-medium">$42.00</td>
+<td class="px-md py-4 text-right">
+<button class="p-1 rounded hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="High-quality raw wagyu beef steak marbled with fat, shot on a minimalist black ceramic plate, atmospheric soft lighting, luxury food photography, deep colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAco1u3CTyj89FBVIBPsOmfqyaBEOJoduHcmNARi5z_xCz-55k3343nQKDnbvhn7OJf0y1rYUQ4XWOYXg9U7rGvp9u8DMDEecQ6vXtg0VJZ1uEx0M2LOO9q5ut0ltMzP7wxUww1Y-7jkLL93Z9mfJzKlDPitvdtofQ0tuL8T5KvzR8_HEkhqIZxeUJWWTdJ3c_tnKp_48hQqNGNHW0A4VAWyb9NJjmFsjMmnYAIK8cPIrH-UYxur6RGUVfo41QJbw7yuoShz39jJm0"/>
+</div>
+<span class="font-body-md font-semibold">Wagyu Ribeye (Grade A5)</span>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-label-sm">Meat</span>
+</td>
+<td class="px-md py-4">
+<div class="flex flex-col items-center gap-1">
+<div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 45%"></div>
+</div>
+<span class="text-label-sm font-bold text-tertiary">45% (Low)</span>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">10kg</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">Premium Meats Ltd.</td>
+<td class="px-md py-4 font-body-md text-right font-medium">$2,140.00</td>
+<td class="px-md py-4 text-right">
+<button class="p-1 rounded hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Bottles of artisanal sparkling water with condensation drops, bright morning light through a window, clean glass aesthetic, fresh and crisp commercial product shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm2nmikNRgBoanuWNEOkupJ6Rw6PP6wPDlhjeSs9CNCliV1wvHLTd7ABMA9ZRYNAjCVd1yulmMSpF_mpY9TqOcChPypr4noIcgV0n9TnFWOHk1ieykkHYVNRsXqSAs2BT1XlLiN950i_4J4kF1EEkX4mZ89sjanPQlBsl6yJNvIztHalxtm313TjfuXkcYEVqYqT12ZGV6rGGz98WyJFgQTeTjMe9ASr9fTTkMKlkWsF13UNjNXR1LVsVhphDKBRuX8RcaubFZm48"/>
+</div>
+<span class="font-body-md font-semibold">San Pellegrino (750ml)</span>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-label-sm">Beverage</span>
+</td>
+<td class="px-md py-4">
+<div class="flex flex-col items-center gap-1">
+<div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%"></div>
+</div>
+<span class="text-label-sm font-bold text-primary">85% (Optimal)</span>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">24 Units</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">VinoDirect Supplies</td>
+<td class="px-md py-4 font-body-md text-right font-medium">$312.00</td>
+<td class="px-md py-4 text-right">
+<button class="p-1 rounded hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Assortment of gourmet cheeses on a wooden board, brie, aged cheddar, and gorgonzola, warm rustic lighting, high-end food arrangement, professional culinary photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMiVk5vJKKYSNuvdt-o5ODDE-9VkfJBKymInh3IAni4FxFeGe8i7M9NRmsYA4ERESQGgRZZ2Ays6sUTFmsrR8Y5-coz1l8R_Nb32x1i8UsP-hxyOcG1w-990UJY5EXmH1V8CqGiEGRs1rDkIovQwppIcqTd5a79G7BU-N7WDhrN9IaXKjPhClLHonIIfugxc6SbA-78wm_jszMEEnmIzbi8R0DBHBbE8qJNbZUNtl38WGLFjgBn-fXiP3QywZVLYEmkfkXXHRD01U"/>
+</div>
+<span class="font-body-md font-semibold">French Brie Cheese</span>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="px-2 py-1 bg-surface-container-high rounded text-label-sm">Dairy</span>
+</td>
+<td class="px-md py-4">
+<div class="flex flex-col items-center gap-1">
+<div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 38%"></div>
+</div>
+<span class="text-label-sm font-bold text-tertiary">38% (Low)</span>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">5kg</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">EuroDairy Global</td>
+<td class="px-md py-4 font-body-md text-right font-medium">$185.00</td>
+<td class="px-md py-4 text-right">
+<button class="p-1 rounded hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-md py-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-low">
+<p class="text-label-sm text-on-surface-variant">Showing 1-10 of 248 items</p>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded bg-primary text-white text-label-sm font-bold">1</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container-high text-label-sm font-bold transition-colors">2</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container-high text-label-sm font-bold transition-colors">3</button>
+<button class="p-1 rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Low Stock Alerts & Quick Reorder -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- Low Stock Alerts Section -->
+<div class="bg-white rounded-xl elevation-2 p-lg">
+<div class="flex items-center justify-between mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+<h4 class="font-title-lg text-title-lg font-bold">Low Stock Alerts</h4>
+</div>
+<span class="bg-error-container text-error text-label-sm font-bold px-2 py-0.5 rounded-full">14 Items</span>
+</div>
+<div class="space-y-md">
+<!-- Alert Item 1 -->
+<div class="p-md rounded-lg border border-outline-variant bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">local_drink</span>
+</div>
+<div>
+<p class="font-body-md font-bold">Whole Milk (3% Fat)</p>
+<p class="text-label-sm text-error font-medium">Only 4 cartons left</p>
+</div>
+</div>
+<button class="bg-primary text-white text-label-sm font-bold px-4 py-2 rounded-lg hover:shadow-lg transition-all active:scale-95">Reorder</button>
+</div>
+<!-- Alert Item 2 -->
+<div class="p-md rounded-lg border border-outline-variant bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">bakery_dining</span>
+</div>
+<div>
+<p class="font-body-md font-bold">Sourdough Loaves</p>
+<p class="text-label-sm text-error font-medium">Critical: 2 units</p>
+</div>
+</div>
+<button class="bg-primary text-white text-label-sm font-bold px-4 py-2 rounded-lg hover:shadow-lg transition-all active:scale-95">Reorder</button>
+</div>
+<!-- Alert Item 3 -->
+<div class="p-md rounded-lg border border-outline-variant bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary">egg</span>
+</div>
+<div>
+<p class="font-body-md font-bold">Grade A Eggs (Large)</p>
+<p class="text-label-sm text-tertiary font-medium">Low: 12 dozen</p>
+</div>
+</div>
+<button class="bg-primary text-white text-label-sm font-bold px-4 py-2 rounded-lg hover:shadow-lg transition-all active:scale-95">Reorder</button>
+</div>
+</div>
+<button class="w-full mt-lg py-2 border border-dashed border-outline text-label-md font-semibold text-outline rounded-lg hover:bg-surface-container-high transition-colors">
+                        View All Alerts
+                    </button>
+</div>
+<!-- Recent Activity / Deliveries -->
+<div class="bg-white rounded-xl elevation-2 p-lg">
+<h4 class="font-title-lg text-title-lg font-bold mb-md">Incoming Deliveries</h4>
+<div class="space-y-md">
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<div class="w-0.5 flex-1 bg-outline-variant my-1"></div>
+</div>
+<div class="pb-md">
+<p class="text-label-md font-bold">Meat Supply #PO-202</p>
+<p class="text-label-sm text-on-surface-variant mb-1">Expected today at 2:00 PM</p>
+<span class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded uppercase">In Transit</span>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-outline rounded-full"></div>
+<div class="w-0.5 flex-1 bg-outline-variant my-1"></div>
+</div>
+<div class="pb-md">
+<p class="text-label-md font-bold">Dairy Restock #PO-198</p>
+<p class="text-label-sm text-on-surface-variant mb-1">Arrived (Awaiting Verification)</p>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase">Pending</span>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 bg-outline rounded-full"></div>
+</div>
+<div>
+<p class="text-label-md font-bold">Beverage Order #PO-205</p>
+<p class="text-label-sm text-on-surface-variant mb-1">Expected tomorrow</p>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase">Scheduled</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Only on Mobile-ish) -->
+<div class="fixed bottom-lg right-lg lg:hidden">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Placeholder for search focus effect
+            const searchInput = document.querySelector('input[type="text"]');
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('ring-2', 'ring-primary/20', 'border-primary');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20', 'border-primary');
+            });
+
+            // Table row hover visual anchor (simple click log)
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('click', () => {
+                    console.log('Viewing detailed stock for:', row.querySelector('.font-semibold').innerText);
+                });
+            });
+        });
+    </script>
+</body></html>

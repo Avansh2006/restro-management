@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tables Management | RestroOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface-variant": "#464555",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-container": "#a44100",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#f7f9fb",
+                        "primary-container": "#4f46e5",
+                        "outline": "#777587",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#0f0069",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#351000",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary": "#7e3000",
+                        "secondary": "#505f76",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-tint": "#4d44e3",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c7c4d8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed-variant": "#38485d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .table-active { outline: 2px solid #4f46e5; outline-offset: 2px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar (RestroOS Brand Anchor) -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-lg mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RestroOS</h1>
+<p class="text-label-sm text-on-surface-variant">Downtown Branch</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-md space-y-xs overflow-y-auto custom-scrollbar">
+<!-- Navigation Items mapped from JSON -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">reorder</span>
+<span class="font-body-md">Live Orders</span>
+</a>
+<!-- ACTIVE TAB: Tables -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-secondary-container text-on-secondary-container border-l-2 border-primary transition-colors" href="#">
+<span class="material-symbols-outlined">table_restaurant</span>
+<span class="font-body-md font-semibold">Tables</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-body-md">Reservations</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="font-body-md">Kitchen</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">point_of_sale</span>
+<span class="font-body-md">POS</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-body-md">Menu</span>
+</a>
+<div class="pt-md pb-xs px-md text-label-sm uppercase tracking-wider text-outline font-bold">Management</div>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md">Employees</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto px-md space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Help</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="ml-[280px] flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar (RestroOS Brand Anchor) -->
+<header class="flex justify-between items-center h-16 px-lg sticky top-0 z-40 bg-surface border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-lg">
+<h2 class="font-title-lg text-title-lg font-semibold text-on-surface">Tables Management</h2>
+<div class="flex items-center bg-surface-container px-sm py-xs rounded-lg border border-outline-variant w-96">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-on-surface-variant" placeholder="Search table, customer, or reservation..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-md py-sm bg-surface-container text-on-surface-variant font-label-md rounded-lg flex items-center gap-xs hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+                    Branch Selector
+                </button>
+<button class="px-md py-sm bg-primary text-white font-label-md rounded-lg hover:opacity-90 transition-opacity">
+                    Quick Create
+                </button>
+<div class="h-8 w-[1px] bg-outline-variant mx-xs"></div>
+<button class="p-base text-on-surface-variant hover:bg-surface-container rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A professional headshot of a restaurant manager in a modern hospitality setting, featuring soft studio lighting, a neutral gray background, and a clean, minimalist professional aesthetic that conveys authority and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYclerzgUslDWJ1rjff6j-dijMnTSxiZdJZJpM14ArCTAtO6t7EJLjVeUWNlJV7bSfGpji6vIP_rCxOr5U7K_eQHAE5rCKMCfD6eJlKW2jXCC5SmAOApwAfmIVnwWRIzAuQBCDb8TZ5svbFOLpNB3XP5ZXpxr9cMQWUA_us5wREPGuuni3Wq5mL7C0lTa0ApcqXMrLdU-vxxlBSD9ADjjX_koLC5rjgAg3ePhg6rgAhxpoH6l7Jcd9zTyXVqq1JWXg7z-qfsjfAcU"/>
+</div>
+</header>
+<!-- Dynamic Content Canvas -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Floor Plan & Grid Area -->
+<section class="flex-1 flex flex-col p-lg gap-lg overflow-y-auto custom-scrollbar">
+<!-- Floor Selectors & Legend -->
+<div class="flex items-center justify-between">
+<div class="flex gap-xs bg-surface-container p-xs rounded-xl border border-outline-variant">
+<button class="px-lg py-sm rounded-lg bg-surface shadow-sm text-primary font-semibold text-label-md">Main Dining</button>
+<button class="px-lg py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high font-semibold text-label-md">Patio</button>
+<button class="px-lg py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high font-semibold text-label-md">Bar Area</button>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs text-label-sm">
+<div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+<span class="text-on-surface-variant">Available</span>
+</div>
+<div class="flex items-center gap-xs text-label-sm">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-on-surface-variant">Occupied</span>
+</div>
+<div class="flex items-center gap-xs text-label-sm">
+<div class="w-3 h-3 rounded-full bg-amber-500"></div>
+<span class="text-on-surface-variant">Dirty</span>
+</div>
+<div class="flex items-center gap-xs text-label-sm">
+<div class="w-3 h-3 rounded-full bg-purple-500"></div>
+<span class="text-on-surface-variant">Reserved</span>
+</div>
+</div>
+</div>
+<!-- Table Grid (Visual Floor Plan View) -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-lg">
+<!-- Table 1: Occupied -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer table-active">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-primary">T-01</span>
+<span class="px-sm py-[2px] rounded-full bg-blue-50 text-blue-700 text-label-sm font-bold">Occupied</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">4 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface font-bold">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-md">$142.50</span>
+</div>
+</div>
+<div class="text-label-sm text-outline italic">Time: 42m</div>
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform shadow-lg">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+</div>
+<!-- Table 2: Available -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-02</span>
+<span class="px-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 text-label-sm font-bold">Available</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">2 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-outline italic">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-md">No Bill</span>
+</div>
+</div>
+<div class="text-label-sm text-outline italic">Status: Empty</div>
+</div>
+<!-- Table 3: Dirty -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer opacity-80">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-03</span>
+<span class="px-sm py-[2px] rounded-full bg-amber-50 text-amber-700 text-label-sm font-bold">Dirty</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">6 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-outline italic">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-md">Cleared</span>
+</div>
+</div>
+<div class="text-label-sm text-amber-600 font-semibold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] animate-spin">autorenew</span>
+                            Cleaning...
+                        </div>
+</div>
+<!-- Table 4: Reserved -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-04</span>
+<span class="px-sm py-[2px] rounded-full bg-purple-50 text-purple-700 text-label-sm font-bold">Reserved</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">4 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface font-semibold">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span class="text-label-md truncate">H. Miller</span>
+</div>
+</div>
+<div class="text-label-sm text-purple-600 font-semibold">Starts: 7:00 PM</div>
+</div>
+<!-- Additional Mock Tables -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-05</span>
+<span class="px-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 text-label-sm font-bold">Available</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">8 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-outline italic">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-md">No Bill</span>
+</div>
+</div>
+<div class="text-label-sm text-outline">Booth Seating</div>
+</div>
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-primary">T-06</span>
+<span class="px-sm py-[2px] rounded-full bg-blue-50 text-blue-700 text-label-sm font-bold">Occupied</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">2 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface font-bold">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-md">$86.20</span>
+</div>
+</div>
+<div class="text-label-sm text-outline italic">Time: 1h 12m</div>
+</div>
+<!-- Repeat for grid density -->
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-07</span>
+<span class="px-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 text-label-sm font-bold">Available</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">4 Seats</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-08</span>
+<span class="px-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 text-label-sm font-bold">Available</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">4 Seats</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-09</span>
+<span class="px-sm py-[2px] rounded-full bg-purple-50 text-purple-700 text-label-sm font-bold">Reserved</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">4 Seats</span>
+</div>
+</div>
+<div class="text-label-sm text-purple-600 font-semibold">Starts: 8:30 PM</div>
+</div>
+<div class="group relative bg-white border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-base">
+<span class="text-headline-md font-bold text-on-surface">T-10</span>
+<span class="px-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 text-label-sm font-bold">Available</span>
+</div>
+<div class="space-y-xs mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="text-label-md">6 Seats</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric Feature: Floor Map Background -->
+<div class="relative mt-auto h-48 w-full border-2 border-dashed border-outline-variant rounded-2xl flex items-center justify-center overflow-hidden">
+
+<div class="relative z-10 flex flex-col items-center text-on-surface-variant text-center px-xl">
+<span class="material-symbols-outlined text-[48px] mb-sm text-outline opacity-50">layers</span>
+<p class="text-body-md font-semibold">Visual Floor Editor Locked</p>
+<p class="text-label-sm text-outline">Floor plan modifications are disabled during service hours.</p>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Reservations & Actions -->
+<aside class="w-[320px] bg-white border-l border-outline-variant flex flex-col h-full">
+<!-- Table Actions Section -->
+<div class="p-lg border-b border-outline-variant">
+<h3 class="text-title-lg font-bold text-on-surface mb-lg">Table Actions</h3>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex flex-col items-center justify-center p-md bg-primary-container text-white rounded-xl hover:opacity-90 transition-opacity gap-xs shadow-md">
+<span class="material-symbols-outlined text-[24px]">login</span>
+<span class="text-label-md font-bold">Check-in</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md bg-secondary-container text-on-secondary-container rounded-xl hover:bg-surface-container-high transition-colors gap-xs">
+<span class="material-symbols-outlined text-[24px]">join_inner</span>
+<span class="text-label-md font-bold">Merge</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md bg-surface-container text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors gap-xs">
+<span class="material-symbols-outlined text-[24px]">move_item</span>
+<span class="text-label-md font-bold">Transfer</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md bg-surface-container text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors gap-xs">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+<span class="text-label-md font-bold">Quick Bill</span>
+</button>
+</div>
+<!-- Selected Table Details (Contextual) -->
+<div class="mt-lg p-md bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-sm">
+<div class="flex flex-col">
+<span class="text-label-sm text-outline uppercase font-bold tracking-tight">Active Selection</span>
+<span class="text-headline-md font-bold text-primary">Table 01</span>
+</div>
+<span class="material-symbols-outlined text-primary">info</span>
+</div>
+<div class="space-y-xs text-body-md text-on-surface-variant">
+<div class="flex justify-between">
+<span>Guests:</span>
+<span class="font-semibold text-on-surface">4 / 4</span>
+</div>
+<div class="flex justify-between">
+<span>Server:</span>
+<span class="font-semibold text-on-surface">Elena R.</span>
+</div>
+<div class="flex justify-between">
+<span>Duration:</span>
+<span class="font-semibold text-on-surface">42m</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Reservations Summary List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-lg">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="text-title-lg font-bold text-on-surface">Upcoming</h3>
+<span class="bg-primary-container text-white text-label-sm px-sm py-1 rounded-full font-bold">8 today</span>
+</div>
+<div class="space-y-md">
+<!-- Reservation Item 1 -->
+<div class="group p-md border border-outline-variant rounded-xl hover:border-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-xs">
+<p class="text-body-md font-bold text-on-surface">Sarah Connor</p>
+<span class="text-label-md font-semibold text-primary">18:30</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">groups</span> 4p</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">table_restaurant</span> T-04</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+<!-- Reservation Item 2 -->
+<div class="group p-md border border-outline-variant rounded-xl hover:border-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-xs">
+<p class="text-body-md font-bold text-on-surface">James Wilson</p>
+<span class="text-label-md font-semibold text-on-surface-variant">19:00</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">groups</span> 2p</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">table_restaurant</span> Bar-3</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+<!-- Reservation Item 3 -->
+<div class="group p-md border border-outline-variant rounded-xl hover:border-primary transition-colors cursor-pointer opacity-70">
+<div class="flex justify-between items-start mb-xs">
+<p class="text-body-md font-bold text-on-surface">Michael Scott</p>
+<span class="text-label-md font-semibold text-on-surface-variant">19:15</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">groups</span> 12p</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">table_restaurant</span> P-01</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+<!-- Reservation Item 4 -->
+<div class="group p-md border border-outline-variant rounded-xl hover:border-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-xs">
+<p class="text-body-md font-bold text-on-surface">Linda Gray</p>
+<span class="text-label-md font-semibold text-on-surface-variant">20:00</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">groups</span> 6p</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">table_restaurant</span> T-12</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Sticky Summary -->
+<div class="p-lg bg-surface-container-highest border-t border-outline-variant">
+<button class="w-full py-md bg-white border border-outline-variant rounded-xl flex items-center justify-center gap-md font-bold text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">calendar_month</span>
+                        View Full Schedule
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+<!-- Interactive Elements JavaScript -->
+<script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('.cursor-pointer').forEach(el => {
+            el.addEventListener('click', function() {
+                // Remove active from others
+                document.querySelectorAll('.table-active').forEach(active => active.classList.remove('table-active'));
+                // Add to current
+                this.classList.add('table-active');
+            });
+        });
+    </script>
+</body></html>

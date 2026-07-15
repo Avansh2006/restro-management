@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Employee &amp; Payroll | RestroOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        /* Custom scrollbar for dense data areas */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface-variant": "#464555",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-container": "#a44100",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#f7f9fb",
+                        "primary-container": "#4f46e5",
+                        "outline": "#777587",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#0f0069",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#351000",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary": "#7e3000",
+                        "secondary": "#505f76",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-tint": "#4d44e3",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c7c4d8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed-variant": "#38485d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RestroOS</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Downtown Branch</p>
+</div>
+<nav class="flex-1 px-md space-y-xs overflow-y-auto custom-scrollbar">
+<!-- Active Tab: Employees -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-secondary-container text-on-secondary-container border-l-2 border-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md text-body-md">Employees</span>
+</a>
+<!-- Inactive Tabs mapping to JSON labels -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">co_present</span>
+<span class="font-body-md text-body-md">Attendance</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">schedule</span>
+<span class="font-body-md text-body-md">Shifts</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Payroll</span>
+</a>
+<div class="h-[1px] bg-outline-variant my-md mx-md"></div>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto px-md space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="h-16 px-lg sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center shadow-sm">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="bg-surface-container-low border border-outline-variant rounded-full pl-10 pr-4 py-1.5 text-body-md focus:ring-2 focus:ring-primary focus:border-primary w-64 outline-none transition-all" placeholder="Search employees..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-xs px-md py-2 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined !text-[18px]">add</span>
+                    Quick Create
+                </button>
+<div class="w-[1px] h-6 bg-outline-variant"></div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a female HR manager with a friendly smile, wearing a modern charcoal blazer. She is set against a brightly lit, minimalist office background with soft blue and indigo accents, reflecting the RestroOS corporate brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvOUP7uA-3M-hQPsVtUtw4Y0SZ0rE-73ByshmMyLR74RSjrdD46Sx1131rKmtXZw_LgSrZ8AcpVUFbmqNrkBlmJMVP17Ww4zQmkLLdM_DECPOVG6OuBQdOOMaQwRbr1AphEI8SiLHKPGLlAqgCX0gtiWcpcGZnCimhysKoZD8hUXPwVyhkFHBN_gPlKbq4L76_xdcT8TAkaj7CA6rSS8Bkjt0R_1a6OKs1rpo5T-jNsqrudiMO0Ry0P2-LwaNJhReFdnAaCYr8wCo"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-lg space-y-lg">
+<!-- Dashboard Top Grid -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Employee Directory Table - Bento Style -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Employee Directory</h2>
+<p class="font-body-md text-on-surface-variant">Manage your kitchen and floor staff</p>
+</div>
+<button class="flex items-center gap-xs text-primary font-label-md">
+                            View All <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-outline-variant">
+<tr>
+<th class="pb-md font-label-md text-on-surface-variant">Employee</th>
+<th class="pb-md font-label-md text-on-surface-variant">Role</th>
+<th class="pb-md font-label-md text-on-surface-variant">Status</th>
+<th class="pb-md font-label-md text-on-surface-variant">Performance</th>
+<th class="pb-md font-label-md text-on-surface-variant">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a executive male chef in a clean white uniform, looking confidently at the camera. Soft-focus commercial kitchen background with stainless steel surfaces and warm lighting, aligning with a high-end SaaS professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYNLavxiEcforMOV2YlYVs2b_Za_hkmI3rH825ahNGPIOhCzsVzSo7Mjih_rojSF4y4Xq_nniEYeoCyTvoY57FAF7s1SbdvV8yxfVCCJ20IYhRp4rf50Yzk-zi9dMwhatPdv-hwtA6QL2QsxeJB9tjuWlrXmvwllRG7ETDc2673E-9zq9Hy1pZZN9RGsBf9QVh5nDVWonuVWhkWNtfWqEL7khBibZpwXpdmOo3sDZ5o0uXsMR-kFjBQ50h2l691i0Knrb6K__J80Y"/>
+</div>
+<div>
+<div class="font-body-lg font-semibold">Marco Rossi</div>
+<div class="text-label-sm text-on-surface-variant">ID: EMP-042</div>
+</div>
+</div>
+</td>
+<td class="py-md">
+<span class="px-sm py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-sm">Head Chef</span>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-xs text-label-md text-primary">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                            On Clock
+                                        </div>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-outline-variant">star</span>
+</div>
+</td>
+<td class="py-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up headshot of a female server in a professional dark navy restaurant uniform. She has a welcoming expression, set against a blurred background of a modern, upscale dining room with clean architectural lines and warm lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVz2-3pUb-4ZkkzTA6chAtwo1JMxJ0GzkfMcnyUqAtgZz3YSUdbxR4YmOdvnHTZgh6bE6tuft09bjZLS9NsngsNxNGqssqmVnv-sgvzw29JbXUNsOLV4o2kbouBSq7ytcgxHI1aZcEE26PNDWiwEK_RXeT0CkDXPPk6tcheTY4gI3MO3AaGMm-LCKWhf3_qpd_pZxaRcg_kxO4Ca8c3wzgNAHEiz23WCnjj57xsxhe2dFBdqBaRO7mKAiSxjhJDH2jq92_z1RDkQM"/>
+</div>
+<div>
+<div class="font-body-lg font-semibold">Sarah Jenkins</div>
+<div class="text-label-sm text-on-surface-variant">ID: EMP-089</div>
+</div>
+</div>
+</td>
+<td class="py-md">
+<span class="px-sm py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-label-sm">Senior Waiter</span>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-xs text-label-md text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+                                            Off Clock
+                                        </div>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="py-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young male restaurant manager in a smart casual light blue shirt. He is looking at a tablet with a focused expression. The setting is a minimalist restaurant entryway with natural light and clean geometric wooden decor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Frpmlp-tQ6RvfBakmoW-JuvReLeHzMboNJFI8_J_yl9FvGTIs7m-IZmOmxlyA1UzB7FsSLqqQcoDBBn2rqf1gVqjILuxfUQ3g7BrW3lMqBTnzxnVG7cefB3jABlW8NgutrZaI-Otdu9YvLeJnBQIM8kc3Ra6P7k2tU6VPhAvfbRHxdB3kihxKPFWK4L3IIm2Xaj9-UWrzc2uIJ-9if3d4VKjQxgipOlU-rs2Sh7-K-hn1WalG1-KDkiviTsy9PHQGFBXPpmTFE0"/>
+</div>
+<div>
+<div class="font-body-lg font-semibold">David Chen</div>
+<div class="text-label-sm text-on-surface-variant">ID: EMP-112</div>
+</div>
+</div>
+</td>
+<td class="py-md">
+<span class="px-sm py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-label-sm">Shift Manager</span>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-xs text-label-md text-primary">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                            On Clock
+                                        </div>
+</td>
+<td class="py-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-[18px] text-outline-variant">star</span>
+<span class="material-symbols-outlined !text-[18px] text-outline-variant">star</span>
+</div>
+</td>
+<td class="py-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Payroll Summary - Sidebar style card -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<div class="bg-primary-container text-on-primary-container rounded-xl p-lg shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-title-lg text-title-lg mb-sm opacity-90">Payroll Summary</h3>
+<div class="text-[32px] font-bold mb-md tracking-tight">€42,850.20</div>
+<div class="flex items-center gap-xs text-label-md mb-lg bg-on-primary/20 w-fit px-2 py-1 rounded">
+<span class="material-symbols-outlined !text-[14px]">calendar_month</span>
+                                October 2026
+                            </div>
+<div class="space-y-md">
+<div class="flex justify-between items-center text-body-md border-b border-on-primary/10 pb-2">
+<span class="opacity-80">Gross Salaries</span>
+<span class="font-semibold">€38,120.00</span>
+</div>
+<div class="flex justify-between items-center text-body-md border-b border-on-primary/10 pb-2">
+<span class="opacity-80">Bonuses &amp; OT</span>
+<span class="font-semibold">€2,450.20</span>
+</div>
+<div class="flex justify-between items-center text-body-md border-b border-on-primary/10 pb-2">
+<span class="opacity-80">Insurance/Tax</span>
+<span class="font-semibold">€2,280.00</span>
+</div>
+</div>
+<button class="w-full mt-lg bg-surface-container-lowest text-primary font-semibold py-3 rounded-lg hover:bg-white transition-colors">
+                                Process Payroll
+                            </button>
+</div>
+<!-- Subtle Background Pattern -->
+<div class="absolute -right-8 -bottom-8 opacity-10">
+<span class="material-symbols-outlined !text-[200px]">payments</span>
+</div>
+</div>
+<!-- Shifts & Roster Mini-Calendar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-title-lg text-title-lg">Upcoming Roster</h3>
+<div class="flex gap-xs">
+<button class="p-1 hover:bg-surface-container-high rounded"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center mb-sm">
+<span class="text-[10px] font-bold text-on-surface-variant">M</span>
+<span class="text-[10px] font-bold text-on-surface-variant">T</span>
+<span class="text-[10px] font-bold text-on-surface-variant">W</span>
+<span class="text-[10px] font-bold text-on-surface-variant">T</span>
+<span class="text-[10px] font-bold text-on-surface-variant">F</span>
+<span class="text-[10px] font-bold text-on-surface-variant">S</span>
+<span class="text-[10px] font-bold text-on-surface-variant">S</span>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center">
+<!-- Minimalist Calendar Days -->
+<div class="aspect-square flex items-center justify-center text-label-md text-on-surface-variant/40">26</div>
+<div class="aspect-square flex items-center justify-center text-label-md text-on-surface-variant/40">27</div>
+<div class="aspect-square flex items-center justify-center text-label-md text-on-surface-variant/40">28</div>
+<div class="aspect-square flex items-center justify-center text-label-md text-on-surface-variant/40">29</div>
+<div class="aspect-square flex items-center justify-center text-label-md text-on-surface-variant/40">30</div>
+<div class="aspect-square flex items-center justify-center text-label-md bg-secondary-container text-on-secondary-container rounded-full font-bold">1</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">2</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full relative">
+                                3 <span class="absolute bottom-1 w-1 h-1 bg-primary rounded-full"></span>
+</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">4</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full relative">
+                                5 <span class="absolute bottom-1 w-1 h-1 bg-tertiary rounded-full"></span>
+</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">6</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">7</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">8</div>
+<div class="aspect-square flex items-center justify-center text-label-md hover:bg-surface-container-high rounded-full">9</div>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant space-y-sm">
+<div class="flex items-center gap-sm">
+<div class="w-1.5 h-8 bg-primary rounded-full"></div>
+<div class="flex-1">
+<div class="text-label-md font-bold">Morning Shift</div>
+<div class="text-[11px] text-on-surface-variant">08:00 AM - 04:00 PM • 6 Staff</div>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-1.5 h-8 bg-tertiary rounded-full"></div>
+<div class="flex-1">
+<div class="text-label-md font-bold">Dinner Service</div>
+<div class="text-[11px] text-on-surface-variant">05:00 PM - 12:00 AM • 12 Staff</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Face Attendance Log - Full Width Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Face Attendance Log</h2>
+<p class="font-body-md text-on-surface-variant">Recent biometric check-ins with photo verification</p>
+</div>
+<div class="flex gap-md">
+<button class="px-md py-2 border border-outline-variant rounded-lg text-body-md hover:bg-surface-container-high transition-colors">Export Log</button>
+<button class="px-md py-2 border border-outline-variant rounded-lg text-body-md hover:bg-surface-container-high transition-colors">Filters</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Verification Card 1 -->
+<div class="p-sm bg-surface-container-low border border-outline-variant rounded-lg flex gap-md items-center">
+<div class="w-16 h-20 rounded-lg overflow-hidden border border-outline relative">
+<img class="w-full h-full object-cover" data-alt="A small security camera thumbnail showing a chef in a white hat being scanned by facial recognition software. There are green digital HUD elements overlaid on his face, indicating a successful match in a high-tech kitchen security environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2vc-ZeZ37D6fh79hhh95OMV-av_qZ_AKS4V_tvjjARCj1Ze_DT3O95-CtY5ZEPibvvPkhyh4vJYXThnPJZEc48lKMPadVI43GYnqxWTlc_R5xQI8kHZfmRtPBK7W7AIAqYUpMS_FNDKRyj5YTKxeHAgc7nSzW6yJWne_gsAmJ0o0tKZy5WRy2RO1I2apl5pMdUmNuekAgKo1Ry8rrkcdvN6KlVLeVgzUUMkrLJPgtoIezubNra0XHaO-infTfVpS8oX1jOkQnNrc"/>
+<div class="absolute bottom-0 right-0 p-0.5 bg-primary text-on-primary rounded-tl-lg">
+<span class="material-symbols-outlined !text-[12px]">verified</span>
+</div>
+</div>
+<div>
+<div class="font-label-md text-primary">CHECK-IN</div>
+<div class="font-body-lg font-bold">Marco Rossi</div>
+<div class="text-label-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined !text-[14px] align-middle">schedule</span> 07:58 AM
+                            </div>
+<div class="text-[10px] text-primary bg-primary-container/20 px-1.5 py-0.5 rounded mt-1 w-fit">98% Match</div>
+</div>
+</div>
+<!-- Verification Card 2 -->
+<div class="p-sm bg-surface-container-low border border-outline-variant rounded-lg flex gap-md items-center">
+<div class="w-16 h-20 rounded-lg overflow-hidden border border-outline relative">
+<img class="w-full h-full object-cover" data-alt="Security thumbnail of a female waiter being recognized by an AI security system. The lighting is from overhead LED restaurant lights, and a digital box surrounds her face with 'Verified: Sarah Jenkins' appearing in a small terminal-style font at the bottom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByStk8K91T74wVlMoxvMTqEmrJA33mgD0X2P6th0DkVdYwZt8qCl-WErzVs8pB9wpa2AS29Z_-pACpttfcy7MS-MWA-Q65I22GLUnL83DdR4TfOlIlWcxJFZ-pYODvTb3D--HNDrLBQFLWRRW-vGDHKI8rzZKTB9BHo3TDziMDHvGz0Qu-FBuAO7TAyRqNzhvjy_R4f-Y14oPQ6CaFNe-NEMfB1UJUquM-1D8wyhND-iwDfTDs4P0ZWQxsc7e-4BKXrjKwQnRefmo"/>
+<div class="absolute bottom-0 right-0 p-0.5 bg-primary text-on-primary rounded-tl-lg">
+<span class="material-symbols-outlined !text-[12px]">verified</span>
+</div>
+</div>
+<div>
+<div class="font-label-md text-primary">CHECK-IN</div>
+<div class="font-body-lg font-bold">Sarah Jenkins</div>
+<div class="text-label-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined !text-[14px] align-middle">schedule</span> 08:02 AM
+                            </div>
+<div class="text-[10px] text-primary bg-primary-container/20 px-1.5 py-0.5 rounded mt-1 w-fit">95% Match</div>
+</div>
+</div>
+<!-- Verification Card 3 -->
+<div class="p-sm bg-surface-container-low border border-outline-variant rounded-lg flex gap-md items-center">
+<div class="w-16 h-20 rounded-lg overflow-hidden border border-outline-variant relative grayscale opacity-60">
+<img class="w-full h-full object-cover" data-alt="Security camera footage of a male staff member leaving the premises through a service door. The image is captured in black and white night vision style, with a digital timestamp '04:12 PM' and 'Logout Verified' stamped in a minimalist tech font." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxy5j0w3pWfNzRNGx4kRh6OyO_8npjdcejMLNVtKjxgZ1nA_hKpafUZrXvTpz9gZ_RmF-0I5ATgPK78qEP3bigfA4s5x_DZDpmYOJnRgsGxe3by_0ix3nKZhF4gr_z7u9NxG3TbAQ19kymks7V1DSK1tx04IuBIM23oGZ0Ta2Pu6WW7N0fOowH4iwfpE1uBltxzdvSpqM7U4np649jqWgWrkFVWDXmO1_rq8f5FRI_rRfuWQz9PSgEOoO8llyLrqUf5Cgpn88smok"/>
+<div class="absolute bottom-0 right-0 p-0.5 bg-secondary text-on-secondary rounded-tl-lg">
+<span class="material-symbols-outlined !text-[12px]">logout</span>
+</div>
+</div>
+<div>
+<div class="font-label-md text-on-surface-variant">CHECK-OUT</div>
+<div class="font-body-lg font-bold">David Chen</div>
+<div class="text-label-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined !text-[14px] align-middle">schedule</span> 04:12 PM
+                            </div>
+<div class="text-[10px] text-on-surface-variant bg-outline-variant/20 px-1.5 py-0.5 rounded mt-1 w-fit">Shift Ended</div>
+</div>
+</div>
+<!-- Verification Card 4 -->
+<div class="p-sm bg-surface-container-low border border-outline-variant rounded-lg flex gap-md items-center">
+<div class="w-16 h-20 rounded-lg overflow-hidden border border-outline relative">
+<img class="w-full h-full object-cover" data-alt="Close-up of a digital kiosk screen showing a successful facial scan of a pastry chef. High-resolution UI indicators and a progress bar are visible, suggesting a seamless and futuristic attendance tracking experience in a modern professional kitchen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBRUYNeL0FqxY0Cs0NjuV7_wzkpySOGJUa-_UUMYOdFozho8g54rPeD401OEgEbM8R1FCsIVNCE5u83r78fD9qYd300Gsw7ZUU7RgrlCDPYocpEWD2ZNj8O_b-L7zXyPd_TWnNM_VxkDp51Ha2LtgeAAEu4asFUc7bmq8OMTIVchVoanEjamrTXFvrgbX_C5WMIvLlhbpxr1EFsylCti7FYhCjRsiGRoVe0uObDPCeJb1-GlmjfRmbgMCeW3Xv2z_5w63Icy5rGXY"/>
+<div class="absolute bottom-0 right-0 p-0.5 bg-primary text-on-primary rounded-tl-lg">
+<span class="material-symbols-outlined !text-[12px]">verified</span>
+</div>
+</div>
+<div>
+<div class="font-label-md text-primary">CHECK-IN</div>
+<div class="font-body-lg font-bold">Elena Gomez</div>
+<div class="text-label-sm text-on-surface-variant mt-1">
+<span class="material-symbols-outlined !text-[14px] align-middle">schedule</span> 08:15 AM
+                            </div>
+<div class="text-[10px] text-primary bg-primary-container/20 px-1.5 py-0.5 rounded mt-1 w-fit">100% Match</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Button - Mobile Only context -->
+<div class="md:hidden fixed bottom-lg right-lg">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple hover interaction for table rows to enhance "Physical Depth" feel
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Initialize active state logic based on page title
+        window.addEventListener('DOMContentLoaded', () => {
+            const pageTitle = "Employees";
+            const navLinks = document.querySelectorAll('aside nav a');
+            navLinks.forEach(link => {
+                const labelText = link.querySelector('span:last-child').textContent;
+                if (labelText === pageTitle) {
+                    link.classList.add('bg-secondary-container', 'text-on-secondary-container', 'border-l-2', 'border-primary');
+                    link.classList.remove('text-on-surface-variant');
+                }
+            });
+        });
+    </script>
+</body></html>
